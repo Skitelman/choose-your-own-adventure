@@ -7,9 +7,10 @@
   <body>
     <h1>All Chapters</h1>
     <ul>
-    <% @chapters.each do |chapter| %>
+    <% Chapter.all.each do |chapter| %>
       <li><a href="/chapters/<%=chapter.id%>"><%=chapter.name%></a></li>
     <% end %>
     </ul>
+    <a href="/chapters/new">Create a New Chapter</a>
   </body>
 </html>

@@ -19,9 +19,11 @@
         <input type="checkbox" name="path[chapter_ids][]" value="<%=chapter.id%>" id="<%=chapter.name%>"></input>
       <%end%>
       <br></br>
-      <label>and/or create a new chapter: </label>
-      <input type="text" name="path[chapter_name]">
-      <br></br>
+      <% 4.times do %>
+        <label>and/or create a new chapter: </label>
+        <input type="text" name="path[chapter_names][]">
+        <br></br>
+      <% end %>
       <input type="submit" value="Create Chapter">
     </form>
 

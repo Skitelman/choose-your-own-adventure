@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Delete <%= @chapter.name %></title>
+  </head>
+  <body>
+    <h1>Delete <%= @chapter.name %></h1>
+    <p>
+      Are you sure that you want to delete this chapter?
+      <form action="/chapters/<%= @chapter.id %>/delete" method="post">
+        <input type="submit" value="Delete Chapter">
+      </form>
+    </p>
+    <br>
+    <a href="/chapters/<%= @chapter.id %>">Return to <%= @chapter.name %></a>
+    <br>
+    <a href="/chapters %>">View All Chapters</a>
+  </body>
+</html>

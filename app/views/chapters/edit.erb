@@ -19,10 +19,12 @@
         <input type="checkbox" name="path[chapter_ids][]" value="<%=chapter.id%>" id="<%=chapter.name%>" <%="checked" if @chapter.path_names.include?(chapter.name) %>></input>
       <%end%>
       <br></br>
-      <label>and/or create a new chapter: </label>
-      <input type="text" name="path[chapter_name]">
-      <br></br>
-      <input type="submit" value="Create Chapter">
+      <% 4.times do %>
+        <label>and/or create a new chapter: </label>
+        <input type="text" name="path[chapter_names][]">
+        <br></br>
+      <% end %>
+      <input type="submit" value="Update Chapter">
     </form>
 
   </body>

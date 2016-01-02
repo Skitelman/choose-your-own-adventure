@@ -16,5 +16,9 @@
       <li><a href="/chapters/<%= path.next_chapter_id%>"><%=path.name%></a></li>
     <% end %>
     </ul>
+    <br>
+    <a href="/chapters/<%= @chapter.id  %>/edit">Edit <%= @chapter.name  %></a>
+    <br>
+    <a href="/chapters/<%= @chapter.id  %>/delete">Delete <%= @chapter.name  %></a>
   </body>
 </html>
