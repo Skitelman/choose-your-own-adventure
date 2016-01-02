@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>All chapters</title>
+  </head>
+  <body>
+    <h1>All Chapters</h1>
+    <ul>
+    <% @chapters.each do |chapter| %>
+      <li><a href="/chapters/<%=chapter.id%>"><%=chapter.name%></a></li>
+    <% end %>
+    </ul>
+  </body>
+</html>

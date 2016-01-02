@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160102004249) do
+ActiveRecord::Schema.define(version: 20160102021932) do
 
   create_table "chapters", force: :cascade do |t|
     t.string "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160102004249) do
   create_table "paths", force: :cascade do |t|
     t.string  "name"
     t.integer "chapter_id"
+    t.integer "next_chapter_id"
   end
 
 end

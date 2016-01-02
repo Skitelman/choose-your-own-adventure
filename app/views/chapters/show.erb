@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= @chapter.name  %></title>
+  </head>
+  <body>
+    <h1><%= @chapter.name  %></h1>
+
+    <p>
+      <%= @chapter.content %>
+    </p>
+
+    <ul>
+    <% @chapter.paths.each do |path| %>
+      <li><a href="/chapters/<%= path.next_chapter_id%>"><%=path.name%></a></li>
+    <% end %>
+    </ul>
+  </body>
+</html>
