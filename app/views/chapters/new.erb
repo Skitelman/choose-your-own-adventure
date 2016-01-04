@@ -12,16 +12,19 @@
       <label><h4>Chapter Content: </h4></label>
       <textarea name="content" form="new_chapter" cols="50" rows="12"></textarea>
       <br>
-      <label><h4>Possibilities for Next Chapter:</h4></label>
-      <label>Choose existing chapter(s): </label>
-      <%Chapter.all.each do |chapter|%>
-        <label><%= chapter.name  %></label>
-        <input type="checkbox" name="path[chapter_ids][]" value="<%=chapter.id%>" id="<%=chapter.name%>"></input>
-      <%end%>
-      <br></br>
-      <% 4.times do %>
-        <label>and/or create a new chapter: </label>
-        <input type="text" name="path[chapter_names][]">
+      <label><h4>Chapter Choices: </h4></label>
+      <br>
+      <% (1..4).each do |n| %>
+        <label>Choice Name: </label>
+        <input type="text" name="path[][name]">
+        <br>
+        <label>Chapter choice links to: </label>
+        <%Chapter.all.each do |chapter|%>
+          <label><%= chapter.name  %></label>
+          <input type="checkbox" name="path[][chapter_id]" value="<%=chapter.id%>" id="<%=chapter.name%>"></input>
+        <%end%>
+        <label>or create a new chapter: </label>
+        <input type="text" name="path[][chapter_name]">
         <br></br>
       <% end %>
       <input type="submit" value="Create Chapter">

@@ -18,19 +18,17 @@ class ApplicationController < Sinatra::Base
 
   post '/chapters' do
     @chapter = Chapter.create(name: params["name"], content: params["content"])
-    if !(params["path"]["chapter_ids"] == nil)
-      path_chapters = params["path"]["chapter_ids"].map{|id| Chapter.find(id)}
-      paths = path_chapters.map do |chapter|
-        Path.create(name: chapter.name, chapter_id: @chapter.id, next_chapter_id: chapter.id)
+    params[:path].each do |path_hash|
+      if path_hash[:name] != ""
+        path = Path.create(name: path_hash[:name], chapter_id: @chapter.id)
+        if path_hash[:chapter_id]
+          path.update(next_chapter_id: path_hash[:chapter_id])
+        else
+          next_chapter = Chapter.create(name: path_hash[:chapter_name])
+          path.update(next_chapter_id: next_chapter.id)
+        end
+        @chapter.paths << path
       end
-      @chapter.paths.concat(paths)
-    end
-    if params[:path][:chapter_names].find{|name| !name.empty?}
-      paths = params[:path][:chapter_names].select{|name| !name.empty?}.map do |name|
-        next_chapter = Chapter.create(name: name)
-        Path.create(name: next_chapter.name, chapter_id: @chapter.id, next_chapter_id: next_chapter.id)
-      end
-      @chapter.paths.concat(paths)
     end
     @chapter.save
     erb :"chapters/show"
@@ -48,29 +46,28 @@ class ApplicationController < Sinatra::Base
 
   post '/chapters/:id' do
     @chapter = Chapter.find(params[:id])
-    old_name = @chapter.name
+    @chapter.paths.clear
     @chapter.update(name: params["name"], content: params["content"])
-    path = Path.find_by(name: old_name, next_chapter_id: @chapter.id)
-    if path
-      path.update(name: @chapter.name)
-    end
-    if !(params["path"]["chapter_ids"] == nil)
-      path_chapters = params["path"]["chapter_ids"].map{|id| Chapter.find(id)}
-      paths = path_chapters.map do |chapter|
-        Path.find_or_create_by(name: chapter.name, chapter_id: @chapter.id, next_chapter_id: chapter.id)
+    params[:path].each do |path_hash|
+      if path_hash[:name] != ""
+        path = Path.find_or_create_by(name: path_hash[:name], chapter_id: @chapter.id)
+        if path_hash[:chapter_id]
+          path.update(next_chapter_id: path_hash[:chapter_id])
+        else
+          next_chapter = Chapter.create(name: path_hash[:chapter_name])
+          path.update(next_chapter_id: next_chapter.id)
+        end
+        @chapter.paths << path
       end
-      @chapter.paths.concat(paths)
-    end
-    if params[:path][:chapter_names].find{|name| !name.empty?}
-      paths = params[:path][:chapter_names].select{|name| !name.empty?}.map do |name|
-        next_chapter = Chapter.create(name: name)
-        Path.create(name: next_chapter.name, chapter_id: @chapter.id, next_chapter_id: next_chapter.id)
-      end
-      @chapter.paths.concat(paths)
     end
     @chapter.save
     erb :"chapters/show"
   end
+
+  # get '/chapters/:id/edit_paths' do
+  #   @chapter = Chapter.find(params[:id])
+  #   erb :"chapters/edit_paths"
+  # end
 
   get '/chapters/:id/delete' do
     @chapter = Chapter.find(params[:id])
