@@ -7,10 +7,13 @@
   <body>
     <h1>Edit <%= @chapter.name %></h1>
     <form action="/chapters/<%= @chapter.id %>" method="post" id="new_chapter">
+
       <label><h4>Chapter Name: </h4></label>
       <input type="text" name="name" value="<%= @chapter.name %>">
+
       <label><h4>Chapter Content: </h4></label>
       <textarea name="content" form="new_chapter" cols="50" rows="12"><%= @chapter.content %></textarea>
+
       <br>
       <label><h4>Chapter Choices: </h4></label>
       <br>
@@ -19,10 +22,13 @@
         <input type="text" name="path[][name]" value="<%= path.name %>">
         <br>
         <label>Chapter choice links to: </label>
-        <%Chapter.all.each do |chapter|%>
-          <label><%= chapter.name  %></label>
-          <input type="checkbox" name="path[][chapter_id]" value="<%=chapter.id%>" <%='checked' if path.next_chapter_id==chapter.id %> id="<%=chapter.name%>"></input>
-        <%end%>
+        <select name="path[][chapter_id]">
+          <option value="" disabled selected>Select A Chapter</option>
+          <% @chapters.each do |chapter|%>
+            <option  value="<%=chapter.id%>" id="<%=chapter.name%>" <%=selected = 'selected' if path.next_chapter_id==chapter.id %>><%=chapter.name%></option>
+          <%end%>
+          <option>Create New Chapter To the Right</option>
+        </select>
         <label>or create a new chapter: </label>
         <input type="text" name="path[][chapter_name]">
         <br></br>
@@ -32,10 +38,12 @@
         <input type="text" name="path[][name]">
         <br>
         <label>Chapter choice links to: </label>
-        <%Chapter.all.each do |chapter|%>
-          <label><%= chapter.name  %></label>
-          <input type="checkbox" name="path[][chapter_id]" value="<%=chapter.id%>" id="<%=chapter.name%>"></input>
-        <%end%>
+        <select name="path[][chapter_id]">
+          <option value="" disabled selected>Select A Chapter</option>
+          <% @chapters.each do |chapter|%>
+            <option  value="<%=chapter.id%>" id="<%=chapter.name%>"><%=chapter.name%></option>
+          <%end%>
+        </select>
         <label>or create a new chapter: </label>
         <input type="text" name="path[][chapter_name]">
         <br></br>

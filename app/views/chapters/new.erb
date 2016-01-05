@@ -19,10 +19,12 @@
         <input type="text" name="path[][name]">
         <br>
         <label>Chapter choice links to: </label>
-        <%Chapter.all.each do |chapter|%>
-          <label><%= chapter.name  %></label>
-          <input type="checkbox" name="path[][chapter_id]" value="<%=chapter.id%>" id="<%=chapter.name%>"></input>
-        <%end%>
+        <select name="path[][chapter_id]">
+          <option value="" disabled selected>Select A Chapter</option>
+          <%@chapters.each do |chapter|%>
+            <option  value="<%=chapter.id%>" id="<%=chapter.name%>"><%=chapter.name%></option>
+          <%end%>
+        </select>
         <label>or create a new chapter: </label>
         <input type="text" name="path[][chapter_name]">
         <br></br>

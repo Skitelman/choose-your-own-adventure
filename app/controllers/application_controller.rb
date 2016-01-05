@@ -13,6 +13,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/chapters/new' do
+    @chapters = Chapter.all
     erb :"chapters/new"
   end
 
@@ -41,6 +42,7 @@ class ApplicationController < Sinatra::Base
 
   get '/chapters/:id/edit' do
     @chapter = Chapter.find(params[:id])
+    @chapters = Chapter.all
     erb :"chapters/edit"
   end
 
@@ -51,7 +53,7 @@ class ApplicationController < Sinatra::Base
     params[:path].each do |path_hash|
       if path_hash[:name] != ""
         path = Path.find_or_create_by(name: path_hash[:name], chapter_id: @chapter.id)
-        if path_hash[:chapter_id]
+        if path_hash[:chapter_id] && path_hash[:chapter_id].to_i.to_s == path_hash[:chapter_id]
           path.update(next_chapter_id: path_hash[:chapter_id])
         else
           next_chapter = Chapter.create(name: path_hash[:chapter_name])
